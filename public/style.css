@@ -1,0 +1,95 @@
+/* public/style.css */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 8px; /* Petit padding pour ne pas coller les bords dans Notion */
+    background-color: transparent; /* Pour que le fond se fonde avec Notion */
+    color: #333; /* Couleur du texte par défaut */
+    overflow-x: hidden; /* Empêche le défilement horizontal non désiré */
+    box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur/hauteur */
+}
+
+#app {
+    width: 100%;
+    max-width: 700px; /* Limite la largeur pour une meilleure lisibilité, ajustable */
+    margin: 0 auto; /* Centre le feed */
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Crée 3 colonnes de largeur égale */
+    gap: 8px; /* Espacement entre les images */
+}
+
+.post-item {
+    position: relative; /* Nécessaire pour positionner la date au survol */
+    width: 100%;
+    padding-bottom: 125%; /* Ratio 4:5 (hauteur = 125% de la largeur) */
+    overflow: hidden; /* Cache tout ce qui dépasse (utile si l'image n'est pas exactement 4:5) */
+    border-radius: 4px;
+    background-color: #eee; /* Couleur de fond avant chargement de l'image */
+}
+
+.post-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recadre les images pour qu'elles remplissent l'espace sans se déformer */
+    display: block;
+    transition: transform 0.3s ease; /* Animation douce au survol */
+}
+
+.post-item:hover img {
+    transform: scale(1.05); /* Zoom léger au survol */
+}
+
+.post-date-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Fond noir semi-transparent */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0; /* Caché par défaut */
+    transition: opacity 0.3s ease; /* Animation douce pour l'apparition */
+    pointer-events: none; /* Permet de cliquer sur l'image en dessous */
+    z-index: 10; /* Assure que la date est au-dessus de l'image */
+}
+
+.post-item:hover .post-date-overlay {
+    opacity: 1; /* Apparaît au survol */
+}
+
+.loading, .error-message {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #777;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+/* Styles pour la fluidité (responsive) */
+@media (max-width: 600px) {
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr); /* Sur petits écrans, affiche 2 colonnes */
+    }
+}
+
+@media (max-width: 400px) {
+    .image-grid {
+        grid-template-columns: repeat(1, 1fr); /* Sur très petits écrans, affiche 1 colonne */
+    }
+}
